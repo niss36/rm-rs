@@ -1,5 +1,5 @@
-use core::{remove_files, remove_files_and_directories, remove_recursively, RemoveMode};
-use std::{io, path::PathBuf};
+use core::{remove, RemoveMode};
+use std::{path::PathBuf, process::ExitCode};
 
 use clap::Parser;
 
@@ -28,14 +28,15 @@ impl Cli {
     }
 }
 
-fn main() -> io::Result<()> {
+fn main() -> ExitCode {
     let args = Cli::parse();
 
     let mode = args.get_remove_mode();
 
-    match mode {
-        RemoveMode::Files => remove_files(args.files),
-        RemoveMode::FilesAndDirectories => remove_files_and_directories(args.files),
-        RemoveMode::Recursive => remove_recursively(args.files),
+    let result = remove(mode, args.files);
+
+    match result {
+        Ok(_) => ExitCode::SUCCESS,
+        Err(_) => ExitCode::FAILURE,
     }
 }
