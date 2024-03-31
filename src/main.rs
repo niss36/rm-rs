@@ -1,6 +1,9 @@
-use std::path::PathBuf;
+use core::{remove_files, remove_files_and_directories, remove_recursively, RemoveMode};
+use std::{io, path::PathBuf};
 
 use clap::Parser;
+
+mod core;
 
 #[derive(Debug, Parser)]
 struct Cli {
@@ -15,8 +18,24 @@ struct Cli {
     files: Vec<PathBuf>,
 }
 
-fn main() {
+impl Cli {
+    fn get_remove_mode(&self) -> RemoveMode {
+        match (self.recursive, self.directories) {
+            (false, false) => RemoveMode::Files,
+            (false, true) => RemoveMode::FilesAndDirectories,
+            (true, _) => RemoveMode::Recursive,
+        }
+    }
+}
+
+fn main() -> io::Result<()> {
     let args = Cli::parse();
 
-    println!("{args:#?}");
+    let mode = args.get_remove_mode();
+
+    match mode {
+        RemoveMode::Files => remove_files(args.files),
+        RemoveMode::FilesAndDirectories => remove_files_and_directories(args.files),
+        RemoveMode::Recursive => remove_recursively(args.files),
+    }
 }
