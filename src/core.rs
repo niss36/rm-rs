@@ -35,11 +35,19 @@ fn remove_recursively(path: &Path) -> io::Result<()> {
     }
 }
 
-fn remove_aux(paths: Vec<PathBuf>, operation: impl Fn(&Path) -> io::Result<()>) -> Result<(), ()> {
+fn remove_aux(
+    paths: Vec<PathBuf>,
+    ignore_not_found: bool,
+    operation: impl Fn(&Path) -> io::Result<()>,
+) -> Result<(), ()> {
     let mut result = Ok(());
 
     for path in paths {
         if let Err(error) = operation(&path) {
+            if ignore_not_found && matches!(error.kind(), ErrorKind::NotFound) {
+                continue;
+            }
+
             result = Err(());
             eprintln!("{}: {}", path.display(), error);
         }
@@ -48,10 +56,12 @@ fn remove_aux(paths: Vec<PathBuf>, operation: impl Fn(&Path) -> io::Result<()>) 
     result
 }
 
-pub fn remove(mode: RemoveMode, paths: Vec<PathBuf>) -> Result<(), ()> {
+pub fn remove(mode: RemoveMode, paths: Vec<PathBuf>, ignore_not_found: bool) -> Result<(), ()> {
+    use RemoveMode as Mode;
+
     match mode {
-        RemoveMode::Files => remove_aux(paths, remove_file),
-        RemoveMode::FilesAndDirectories => remove_aux(paths, remove_file_or_directory),
-        RemoveMode::Recursive => remove_aux(paths, remove_recursively),
+        Mode::Files => remove_aux(paths, ignore_not_found, remove_file),
+        Mode::FilesAndDirectories => remove_aux(paths, ignore_not_found, remove_file_or_directory),
+        Mode::Recursive => remove_aux(paths, ignore_not_found, remove_recursively),
     }
 }

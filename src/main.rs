@@ -15,6 +15,10 @@ struct Cli {
     #[clap(short)]
     recursive: bool,
 
+    /// Ignore "file not found" errors
+    #[clap(short = 'f')]
+    ignore_not_found: bool,
+
     files: Vec<PathBuf>,
 }
 
@@ -33,7 +37,7 @@ fn main() -> ExitCode {
 
     let mode = args.get_remove_mode();
 
-    let result = remove(mode, args.files);
+    let result = remove(mode, args.files, args.ignore_not_found);
 
     match result {
         Ok(_) => ExitCode::SUCCESS,
