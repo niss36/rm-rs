@@ -145,7 +145,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rimraf-rs"
+name = "rm-rs"
 version = "0.1.0"
 dependencies = [
  "clap",
