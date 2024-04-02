@@ -4,6 +4,26 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+optionalDependencies:
+  rm-rs-darwin-arm64:
+    specifier: 0.1.1
+    version: 0.1.1
+  rm-rs-darwin-x64:
+    specifier: 0.1.1
+    version: 0.1.1
+  rm-rs-linux-arm64:
+    specifier: 0.1.1
+    version: 0.1.1
+  rm-rs-linux-x64:
+    specifier: 0.1.1
+    version: 0.1.1
+  rm-rs-windows-arm64:
+    specifier: 0.1.1
+    version: 0.1.1
+  rm-rs-windows-x64:
+    specifier: 0.1.1
+    version: 0.1.1
+
 devDependencies:
   '@types/node':
     specifier: ^18.19.28
@@ -844,6 +864,54 @@ packages:
     dependencies:
       glob: 7.2.3
     dev: true
+
+  /rm-rs-darwin-arm64@0.1.1:
+    resolution: {integrity: sha512-WSOGypCR7BbDk5NyCXmWaxIUix4jwf1AR8G4S2Jjnh80diztdaNP6RzW85pJw8AO037kEH5H0mCCyWF+FuM5tg==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /rm-rs-darwin-x64@0.1.1:
+    resolution: {integrity: sha512-9rE/dTEwOIdALtYLtuw2ULfgAsZLZvtEGuxU+AOD8s5c413nEyfo3ZCPgctC1nshir7tklcct0lEDH+wH2jSXw==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /rm-rs-linux-arm64@0.1.1:
+    resolution: {integrity: sha512-m+w2HzPrX+s6uK3ZkIcXDsxHhgtMUEOwwnC88xzPojStlxI3BMEfVEnaPx+HDpeF3E1S+b3ehYP+qOWrDJM1fA==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /rm-rs-linux-x64@0.1.1:
+    resolution: {integrity: sha512-g6i5kTQPxTW/tVx5LTA4X5+RTsfEJICOYWcXr9VbQSHFxlc/R51IvwgLG6ksx7mCRV+jRLuIyoMs96qUF1iVhA==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /rm-rs-windows-arm64@0.1.1:
+    resolution: {integrity: sha512-YkIyL5C+zDHFIr4YpLfl+m9LVfm87l9lPh0hCVHVFJSn1+z/ZEwcsMi2TaD+mnDg3t1mZKD0xBpgjMHrDwxK5g==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /rm-rs-windows-x64@0.1.1:
+    resolution: {integrity: sha512-rBKKno+YdFTB2A0miNrFDfCTkx6UzjBnnEbHVDlLufFkO2dsdICfIHk6nXhntDOcCE1DSHC4A1FT+QIp9433TQ==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
