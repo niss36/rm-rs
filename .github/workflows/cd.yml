@@ -94,7 +94,13 @@ jobs:
           export node_os=${{ matrix.os }}
           export node_arch=${{ matrix.arch }}
           export node_version="${{ env.RELEASE_VERSION }}"
-          export node_pkg="${bin}-${node_os}-${node_arch}"
+
+          # note: use 'windows' as OS name instead of 'win32' to avoid spam detection
+          if [ "${{ matrix.os }}" = "win32" ]; then
+            export node_pkg="${bin}-windows-${node_arch}"
+          else
+            export node_pkg="${bin}-${node_os}-${node_arch}"
+          fi
 
           mkdir -p "${node_pkg}/bin"
 

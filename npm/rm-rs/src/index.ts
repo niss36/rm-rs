@@ -40,10 +40,10 @@ import { spawnSync } from "child_process";
 function getExePath() {
   const name = "rm-rs";
   const arch = process.arch;
-  let os = process.platform;
+  let os: string = process.platform;
   let extension = "";
   if (["win32", "cygwin"].includes(os)) {
-    os = "win32";
+    os = "windows";
     extension = ".exe";
   }
 
