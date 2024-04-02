@@ -1,0 +1,141 @@
+name: Continuous Deployment
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+concurrency:
+  group: cd
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  publish-npm-binaries:
+    name: Publish NPM packages
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            arch: x64
+            target: x86_64-unknown-linux-gnu
+            runs-on: ubuntu-latest
+
+          - os: linux
+            arch: arm64
+            target: aarch64-unknown-linux-gnu
+            setup: sudo apt-get install -y gcc-aarch64-linux-gnu
+            cargo_env: CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
+            runs-on: ubuntu-latest
+
+          - os: win32
+            arch: x64
+            target: x86_64-pc-windows-msvc
+            runs-on: windows-latest
+
+          - os: win32
+            arch: arm64
+            target: aarch64-pc-windows-msvc
+            runs-on: windows-latest
+
+          - os: darwin
+            arch: x64
+            target: x86_64-apple-darwin
+            runs-on: macos-latest
+
+          - os: darwin
+            arch: arm64
+            target: aarch64-apple-darwin
+            runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+
+      - name: Enable debug logging
+        if: ${{ runner.debug }}
+        run: echo "CARGO_TERM_VERBOSE=true" >> $GITHUB_ENV
+
+      - name: Install rust target
+        run: rustup target add ${{ matrix.target }}
+
+      - name: Setup for build
+        if: ${{ matrix.setup }}
+        run: ${{ matrix.setup }}
+
+      - name: cargo build
+        run: ${{ matrix.cargo_env }} cargo build --release --target=${{ matrix.target }}
+
+      - name: Set the release version
+        shell: bash
+        run: echo "RELEASE_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+          registry-url: "https://registry.npmjs.org"
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Publish to NPM
+        shell: bash
+        run: |
+          cd npm
+
+          bin="rm-rs"
+          export node_os=${{ matrix.os }}
+          export node_arch=${{ matrix.arch }}
+          export node_version="${{ env.RELEASE_VERSION }}"
+          export node_pkg="${bin}-${node_os}-${node_arch}"
+
+          mkdir -p "${node_pkg}/bin"
+
+          envsubst < template.package.json > "${node_pkg}/package.json"
+
+          # note: windows binaries need '.exe' extension
+          if [ "${{ matrix.os }}" = "win32" ]; then
+            bin="${bin}.exe"
+          fi
+          cp "../target/${{ matrix.target }}/release/${bin}" "${node_pkg}/bin"
+
+          cd "${node_pkg}"
+          pnpm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-npm-base:
+    name: Publish the base NPM package
+    needs: publish-npm-binaries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+          registry-url: "https://registry.npmjs.org"
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Publish the package
+        continue-on-error: true
+        shell: bash
+        run: |
+          cd npm/rm-rs
+          pnpm install
+          pnpm build
+          pnpm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
