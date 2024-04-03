@@ -22,6 +22,7 @@ struct Cli {
     #[clap(short = 'f')]
     ignore_not_found: bool,
 
+    #[clap(required = true)]
     files: Vec<PathBuf>,
 }
 
