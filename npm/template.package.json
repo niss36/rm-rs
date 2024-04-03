@@ -2,10 +2,7 @@
   "name": "${node_pkg}",
   "version": "${node_version}",
   "author": "Nissim Chekroun <nissim.chekroun@gmail.com>",
-  "os": [
-    "${node_os}"
-  ],
-  "cpu": [
-    "${node_arch}"
-  ]
+  "bin": "${node_bin}",
+  "os": ["${node_os}"],
+  "cpu": ["${node_arch}"]
 }
