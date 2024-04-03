@@ -1,0 +1,3 @@
+packages:
+  - "npm/rm-rs"
+  - "npm/rm-rs-*"
