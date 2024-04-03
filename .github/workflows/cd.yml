@@ -142,7 +142,7 @@ jobs:
           cd ../binaries
 
           for node_pkg in * ; do
-            cp "${node_pkg}/*" "../npm/${node_pkg}/bin"
+            cp "${node_pkg}"/* "../npm/${node_pkg}/bin"
           done
 
       - name: Publish to NPM
