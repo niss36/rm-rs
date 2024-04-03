@@ -59,7 +59,6 @@ function getExePath() {
 
 function main() {
   const args = process.argv.slice(2);
-  console.log(getExePath());
   const processResult = spawnSync(getExePath(), args, { stdio: "inherit" });
 
   // Returning an error if the status is null, as that means the process was killed by a signal
