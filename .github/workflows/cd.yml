@@ -10,6 +10,7 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
+  BIN_NAME: rm-rs
 
 jobs:
   build-binaries:
@@ -75,24 +76,35 @@ jobs:
         id: compute-node-pkg
         shell: bash
         run: |
-          bin="rm-rs"
           node_os=${{ matrix.os }}
           node_arch=${{ matrix.arch }}
 
           # note: use 'windows' as OS name instead of 'win32' to avoid spam detection
           if [ "${{ matrix.os }}" = "win32" ]; then
-            node_pkg="${bin}-windows-${node_arch}"
+            node_pkg="${BIN_NAME}-windows-${node_arch}"
           else
-            node_pkg="${bin}-${node_os}-${node_arch}"
+            node_pkg="${BIN_NAME}-${node_os}-${node_arch}"
           fi
 
           echo "node_pkg=$node_pkg" >> "$GITHUB_OUTPUT"
+
+      - name: Compute binary path
+        id: compute-bin-path
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" = "win32" ]; then
+            path="target/${{ matrix.target }}/release/${BIN_NAME}.exe"
+          else
+            path="target/${{ matrix.target }}/release/${BIN_NAME}"
+          fi
+
+          echo "path=$path" >> "$GITHUB_OUTPUT"
 
       - name: Upload built artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.compute-node-pkg.outputs.node_pkg }}
-          path: target/${{ matrix.target }}/release/rm-rs
+          path: ${{ steps.compute-bin-path.outputs.path }}
           retention-days: 1
 
   publish-npm:
