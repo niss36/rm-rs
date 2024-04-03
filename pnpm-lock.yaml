@@ -9,22 +9,22 @@ importers:
   npm/rm-rs:
     optionalDependencies:
       rm-rs-darwin-arm64:
-        specifier: 0.1.2
+        specifier: 0.2.0
         version: link:../rm-rs-darwin-arm64
       rm-rs-darwin-x64:
-        specifier: 0.1.2
+        specifier: 0.2.0
         version: link:../rm-rs-darwin-x64
       rm-rs-linux-arm64:
-        specifier: 0.1.2
+        specifier: 0.2.0
         version: link:../rm-rs-linux-arm64
       rm-rs-linux-x64:
-        specifier: 0.1.2
+        specifier: 0.2.0
         version: link:../rm-rs-linux-x64
       rm-rs-windows-arm64:
-        specifier: 0.1.2
+        specifier: 0.2.0
         version: link:../rm-rs-windows-arm64
       rm-rs-windows-x64:
-        specifier: 0.1.2
+        specifier: 0.2.0
         version: link:../rm-rs-windows-x64
     devDependencies:
       '@types/node':
