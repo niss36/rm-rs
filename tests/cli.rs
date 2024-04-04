@@ -56,10 +56,19 @@ fn delete_current_dir_fails() -> Result<(), Box<dyn Error>> {
 fn delete_non_existent_file_fails() -> Result<(), Box<dyn Error>> {
     let mut cmd = Command::cargo_bin(BINARY_NAME)?;
 
+    #[cfg(target_os = "windows")]
+    let expected_message = "The system cannot find the path specified";
+
+    #[cfg(not(target_os = "windows"))]
+    let expected_message = "No such file or directory";
+
     cmd.arg("tests/__tmp__/file");
-    cmd.assert().failure().stderr(predicate::str::contains(
-        "tests/__tmp__/file: No such file or directory",
-    ));
+    cmd.assert()
+        .failure()
+        .stderr(predicate::str::contains(format!(
+            "tests/__tmp__/file: {}",
+            expected_message
+        )));
 
     Ok(())
 }
@@ -145,12 +154,19 @@ fn delete_non_empty_directory_with_d_fails() -> Result<(), Box<dyn Error>> {
 
     let mut cmd = Command::cargo_bin(BINARY_NAME)?;
 
+    #[cfg(target_os = "windows")]
+    let expected_message = "The directory is not empty";
+
+    #[cfg(not(target_os = "windows"))]
+    let expected_message = "Directory not empty";
+
     cmd.arg("-d").arg(&dir_path);
     cmd.assert()
         .failure()
         .stderr(predicate::str::contains(format!(
-            "{}: Directory not empty",
-            dir_path.display()
+            "{}: {}",
+            dir_path.display(),
+            expected_message
         )));
 
     assert!(dir_path.exists());
