@@ -42,7 +42,7 @@ pub fn does_any_path_contain_working_directory(paths: &[PathBuf]) -> io::Result<
         );
     }
 
-    return Ok(true);
+    Ok(true)
 }
 
 #[cfg(test)]

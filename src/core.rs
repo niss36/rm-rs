@@ -28,10 +28,10 @@ fn remove_file_or_directory(path: &Path) -> io::Result<()> {
 }
 
 fn remove_recursively(path: &Path) -> io::Result<()> {
-    if fs::symlink_metadata(&path)?.is_dir() {
-        fs::remove_dir_all(&path)
+    if fs::symlink_metadata(path)?.is_dir() {
+        fs::remove_dir_all(path)
     } else {
-        fs::remove_file(&path)
+        fs::remove_file(path)
     }
 }
 
