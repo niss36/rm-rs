@@ -135,6 +135,8 @@ jobs:
       - name: Generate packages
         shell: bash
         run: |
+          cp README.md "npm/${BIN_NAME}/"
+
           cd npm
 
           bash generate-packages.sh

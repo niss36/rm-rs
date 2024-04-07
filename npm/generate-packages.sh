@@ -18,6 +18,8 @@ function generate_package() {
     mkdir -p "${node_pkg}/bin"
 
     envsubst < template.package.json > "${node_pkg}/package.json"
+
+    cp ../README.md "${node_pkg}"
 }
 
 generate_package darwin arm64
