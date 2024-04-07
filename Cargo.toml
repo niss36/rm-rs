@@ -2,6 +2,11 @@
 name = "rm-rs"
 version = "0.2.0"
 edition = "2021"
+license = "MIT"
+description = "A cross-platform alternative to `rm`"
+repository = "https://github.com/niss36/rm-rs"
+categories = ["command-line-utilities"]
+keywords = ["rm", "delete", "file", "directory", "recursive"]
 
 [dependencies]
 clap = { version = "4.5.4", features = ["derive"] }

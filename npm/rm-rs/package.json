@@ -14,6 +14,11 @@
     "cli",
     "rust"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/niss36/rm-rs.git",
+    "directory": "npm/rm-rs"
+  },
   "bin": "dist/index.js",
   "scripts": {
     "build": "tsc",
