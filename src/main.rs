@@ -2,11 +2,10 @@ use std::{io, path::PathBuf, process::ExitCode};
 
 use clap::Parser;
 
-mod core;
-mod safety;
-
-use core::{remove, RemoveMode};
-use safety::does_any_path_contain_working_directory;
+use rm_rs::{
+    core::{remove, RemoveMode},
+    safety::does_any_path_contain_working_directory,
+};
 
 #[derive(Debug, Parser)]
 struct Cli {
