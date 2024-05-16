@@ -43,7 +43,7 @@ fn remove_aux(
     paths: Vec<PathBuf>,
     ignore_not_found: bool,
     operation: impl Fn(&Path) -> io::Result<()>,
-) -> Result<(), ()> {
+) -> io::Result<()> {
     let mut result = Ok(());
 
     for path in paths {
@@ -52,15 +52,15 @@ fn remove_aux(
                 continue;
             }
 
-            result = Err(());
             eprintln!("{}: {}", path.display(), error);
+            result = Err(error);
         }
     }
 
     result
 }
 
-pub fn remove(mode: RemoveMode, paths: Vec<PathBuf>, ignore_not_found: bool) -> Result<(), ()> {
+pub fn remove(mode: RemoveMode, paths: Vec<PathBuf>, ignore_not_found: bool) -> io::Result<()> {
     use RemoveMode as Mode;
 
     match mode {
