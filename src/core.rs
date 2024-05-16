@@ -11,8 +11,12 @@ pub enum RemoveMode {
     Recursive,
 }
 
+fn is_directory(path: &Path) -> io::Result<bool> {
+    Ok(fs::symlink_metadata(path)?.is_dir())
+}
+
 fn remove_file(path: &Path) -> io::Result<()> {
-    if fs::symlink_metadata(path)?.is_dir() {
+    if is_directory(path)? {
         Err(io::Error::new(ErrorKind::Other, "Is a directory"))
     } else {
         fs::remove_file(path)
@@ -20,7 +24,7 @@ fn remove_file(path: &Path) -> io::Result<()> {
 }
 
 fn remove_file_or_directory(path: &Path) -> io::Result<()> {
-    if fs::symlink_metadata(path)?.is_dir() {
+    if is_directory(path)? {
         fs::remove_dir(path)
     } else {
         fs::remove_file(path)
@@ -28,7 +32,7 @@ fn remove_file_or_directory(path: &Path) -> io::Result<()> {
 }
 
 fn remove_recursively(path: &Path) -> io::Result<()> {
-    if fs::symlink_metadata(path)?.is_dir() {
+    if is_directory(path)? {
         fs::remove_dir_all(path)
     } else {
         fs::remove_file(path)
