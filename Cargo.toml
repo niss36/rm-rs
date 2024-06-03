@@ -1,7 +1,7 @@
 [package]
 name = "rm-rs"
 
-version = "0.2.2" # managed by release.sh - do not edit manually
+version = "0.2.3" # managed by release.sh - do not edit manually
 
 edition = "2021"
 license = "MIT"

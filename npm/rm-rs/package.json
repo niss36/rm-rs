@@ -1,6 +1,6 @@
 {
   "name": "rm-rs",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Nissim Chekroun <nissim.chekroun@gmail.com>",
   "license": "MIT",
   "description": "A cross-platform alternative to `rm`, written in Rust for native performance.",
@@ -35,12 +35,12 @@
     "typescript": "^5.4.3"
   },
   "optionalDependencies": {
-    "rm-rs-darwin-arm64": "0.2.2",
-    "rm-rs-darwin-x64": "0.2.2",
-    "rm-rs-linux-arm64": "0.2.2",
-    "rm-rs-linux-x64": "0.2.2",
-    "rm-rs-windows-arm64": "0.2.2",
-    "rm-rs-windows-x64": "0.2.2"
+    "rm-rs-darwin-arm64": "0.2.3",
+    "rm-rs-darwin-x64": "0.2.3",
+    "rm-rs-linux-arm64": "0.2.3",
+    "rm-rs-linux-x64": "0.2.3",
+    "rm-rs-windows-arm64": "0.2.3",
+    "rm-rs-windows-x64": "0.2.3"
   },
   "eslintConfig": {
     "extends": [
