@@ -1,3 +1,11 @@
+<div align="center">
+
+[![NPM Version](https://img.shields.io/npm/v/rm-rs)](https://www.npmjs.com/package/rm-rs)
+[![Crates.io Version](https://img.shields.io/crates/v/rm-rs)
+](https://crates.io/crates/rm-rs)
+
+</div>
+
 # rm-rs
 
 A cross-platform alternative to `rm`, written in Rust for native performance.
